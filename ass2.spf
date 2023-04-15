@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ContentFilters</key>
+	<dict/>
+	<key>auto_connect</key>
+	<true/>
+	<key>data</key>
+	<dict>
+		<key>connection</key>
+		<dict>
+			<key>database</key>
+			<string>dhhs20</string>
+			<key>host</key>
+			<string>mysql.student.sussex.ac.uk</string>
+			<key>kcid</key>
+			<string>-7034807832070077559</string>
+			<key>name</key>
+			<string>SussexMySQLServer</string>
+			<key>port</key>
+			<integer>3306</integer>
+			<key>rdbms_type</key>
+			<string>mysql</string>
+			<key>sslCACertFileLocation</key>
+			<string></string>
+			<key>sslCACertFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslCertificateFileLocation</key>
+			<string></string>
+			<key>sslCertificateFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>sslKeyFileLocation</key>
+			<string></string>
+			<key>sslKeyFileLocationEnabled</key>
+			<integer>0</integer>
+			<key>type</key>
+			<string>SPTCPIPConnection</string>
+			<key>useSSL</key>
+			<integer>0</integer>
+			<key>user</key>
+			<string>dhhs20</string>
+		</dict>
+		<key>session</key>
+		<dict>
+			<key>connectionEncoding</key>
+			<string>latin1</string>
+			<key>contentPageNumber</key>
+			<integer>1</integer>
+			<key>contentSelection</key>
+			<data>
+			YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0
+			b3BYJG9iamVjdHMSAAGGoF8QD05TS2V5ZWRBcmNoaXZlctEICVRk
+			YXRhgAGtCwwZGhscHSEoLDA1OlUkbnVsbNMNDg8QFBhXTlMua2V5
+			c1pOUy5vYmplY3RzViRjbGFzc6MREhOAAoADgASjFRYXgAWABoAI
+			gAxUdHlwZVRyb3dzVGtleXNfECZTZWxlY3Rpb25EZXRhaWxUeXBl
+			UHJpbWFyeUtleWVkRGV0YWlsc9MNDg8eHyCgoIAH0iIjJCVaJGNs
+			YXNzbmFtZVgkY2xhc3Nlc18QE05TTXV0YWJsZURpY3Rpb25hcnmj
+			JCYnXE5TRGljdGlvbmFyeVhOU09iamVjdNIODykroSqACYAL0g8t
+			Li9ZTlMuc3RyaW5ngApYTklOdW1iZXLSIiMxMl8QD05TTXV0YWJs
+			ZVN0cmluZ6MxMzRYTlNTdHJpbmdYTlNPYmplY3TSIiM2N15OU011
+			dGFibGVBcnJheaM2ODlXTlNBcnJheVhOU09iamVjdNIiIyY7oiY8
+			WE5TT2JqZWN0AAgAEQAaACQAKQAyADcASQBMAFEAUwBhAGcAbgB2
+			AIEAiACMAI4AkACSAJYAmACaAJwAngCjAKgArQDWAN0A3gDfAOEA
+			5gDxAPoBEAEUASEBKgEvATEBMwE1AToBRAFGAU8BVAFmAWoBcwF8
+			AYEBkAGUAZwBpQGqAa0AAAAAAAACAQAAAAAAAAA9AAAAAAAAAAAA
+			AAAAAAABtg==
+			</data>
+			<key>contentSortColIsAsc</key>
+			<true/>
+			<key>contentViewport</key>
+			<string>{{0, 0}, {694, 448}}</string>
+			<key>isToolbarVisible</key>
+			<true/>
+			<key>queries</key>
+			<string>-- Answer to the 2nd Database Assignment 2019/20
+--
+-- CANDIDATE NUMBER 
+-- Please insert your candidate number in the line above.
+-- Do NOT remove ANY lines of this template.
+
+
+-- In each section below put your answer in a new line 
+-- BELOW the corresponding comment.
+-- Use ONE SQL statement ONLY per question.
+-- If you don’t answer a question just leave 
+-- the corresponding space blank. 
+-- Anything that does not run in SQL you MUST put in comments.
+-- Your code should never throw a syntax error.
+-- Questions with syntax errors will receive zero marks.
+
+-- DO NOT REMOVE ANY LINE FROM THIS FILE.
+
+-- START OF ASSIGNMENT CODE
+
+
+-- @@01
+CREATE TABLE Hospital_MedicalRecord (
+recNo SMALLINT UNSIGNED NOT NULL,
+patient CHAR(9) NOT NULL,
+doctor CHAR(9),
+enteredOn DATETIME NOT NULL,
+diagnosis MEDIUM TEXT(10) NOT NULL,
+treatment VARCHAR(1000), PRIMARY KEY (recNo, patient), 
+FOREIGN KEY (patient) REFERENCES Hospital_Patient(NINumber) ON DELETE CASCADE ON UPDATE RESTRICT, 
+FOREIGN KEY (doctor) REFERENCES Hospital_Doctor(NINumber) ON UPDATE RESTRICT
+
+);
+
+ 
+-- @@02
+ALTER TABLE Hospital_MedicalRecord 
+ADD duration TIME;
+
+-- @@03
+UPDATE Hospital_Doctor SET salary = 0.9 * salary
+WHERE FIND_IN_SET ('ear', expertise);
+
+-- @@04
+SELECT fname, lname, year(dateOfBirth) AS 'born' FROM Hospital_Patient WHERE INSTR(city, 'right') &gt; 0 ORDER BY lname, fname ASC; 
+
+-- @@05
+
+SELECT NINumber, fname, lname, (weight/POWER((height/100),2)) AS 'BMI'FROM Hospital_Patient WHERE DATEDIFF(NOW(), dateOfBirth)/365.25 &lt; 30;
+
+
+-- @@06
+
+SELECT COUNT(*) AS 'number' from Hospital_Doctor;
+
+-- @@07
+
+SELECT Hospital_Doctor.NINumber, Hospital_Doctor.lname, 
+	(SELECT COUNT(*) FROM Hospital_CarriesOut WHERE Hospital_Doctor.NINumber = Hospital_CarriesOut.doctor AND year(Hospital_CarriesOut.startDateTime) = year(NOW())) AS operations
+		FROM Hospital_Doctor;
+
+-- @@08
+
+SELECT doc1.NINumber, doc1.fname, doc1.lname FROM Hospital_Doctor AS doc1
+WHERE doc1.mentored_by IS NULL
+	AND (SELECT COUNT(*)
+	FROM Hospital_Doctor
+	WHERE Hospital_Doctor.mentored_by = doc1.NINumber) &gt; 0;
+
+
+-- @@09
+
+SELECT theatre1.theatreNo, theatre1.startDateTime AS startTime1, theatre2.startDateTime AS startTime2
+FROM Hospital_Operation AS theatre1 JOIN Hospital_Operation AS theatre2
+WHERE theatre2.startDateTime &lt;= ADDTIME(theatre1.startDateTime, theatre1.duration)
+	AND theatre2.startDateTime &gt;= theatre1.startDateTime
+	AND theatre1.theatreNo = theatre2.theatreNo
+	AND theatre1.startDateTime != theatre2.startDateTime;
+
+-- @@10
+
+SELECT theatreNo, MAX(frequency) AS nummOps, dom, mon, yr FROM(
+SELECT theatreNo, COUNT(*) AS frequency, extract(DAY FROM startDateTime) AS dom, extract(MONTH FROM startDateTime) AS mon, EXTRACT(YEAR FROM startDateTime) AS yr
+FROM Hospital_Operation GROUP BY
+theatreNo, extract(DAY FROM startDateTime), extract(MONTH FROM startDateTime)) AS theatre2 GROUP BY theatreNo, dom, mon, yr;
+)
+
+
+-- @@11
+
+
+
+-- @@12
+delimiter $$
+
+
+-- END OF ASSIGNMENT CODE
+</string>
+			<key>table</key>
+			<string>Hospital_Patient</string>
+			<key>view</key>
+			<string>SP_VIEW_CUSTOMQUERY</string>
+			<key>windowVerticalDividerPosition</key>
+			<real>190</real>
+		</dict>
+	</dict>
+	<key>encrypted</key>
+	<false/>
+	<key>format</key>
+	<string>connection</string>
+	<key>queryFavorites</key>
+	<array/>
+	<key>queryHistory</key>
+	<array>
+		<string>SELECT theatreNo, MAX(frequency) AS nummOps, dom, mon, yr FROM(
+SELECT theatreNo, COUNT(*) AS frequency, extract(DAY FROM startDateTime) AS dom, extract(MONTH FROM startDateTime) AS mon, EXTRACT(YEAR FROM startDateTime) AS yr
+FROM Hospital_Operation GROUP BY
+theatreNo, extract(DAY FROM startDateTime), extract(MONTH FROM startDateTime)) AS theatre2 GROUP BY theatreNo, dom, mon, yr</string>
+		<string>SELECT theatreNo, MAX(frequency) AS nummOps, dom, 'month', 'year' FROM(
+SELECT theatreNo, COUNT(*) AS frequency, extract(DAY FROM startDateTime) AS dom, extract(MONTH FROM startDateTime) AS 'month', EXTRACT(YEAR FROM startDateTime) AS 'year'
+FROM Hospital_Operation GROUP BY
+theatreNo, extract(DAY FROM startDateTime), extract(MONTH FROM startDateTime)) AS theatre2 GROUP BY theatreNo, dom, 'month', 'year'</string>
+		<string>SELECT theatreNo, MAX(frequency) AS nummOps, dom, month, _year</string>
+		<string>SELECT theatre1.theatreNo, theatre1.startDateTime AS startTime1, theatre2.startDateTime AS startTime2
+FROM Hospital_Operation AS theatre1 JOIN Hospital_Operation AS theatre2
+WHERE theatre2.startDateTime &lt;= ADDTIME(theatre1.startDateTime, theatre1.duration)
+	AND theatre2.startDateTime &gt;= theatre1.startDateTime
+	AND theatre1.theatreNo = theatre2.theatreNo
+	AND theatre1.startDateTime != theatre2.startDateTime</string>
+		<string>SELECT * FROM Hospital_Operation</string>
+		<string>SELECT * FROM Hospital_Operations</string>
+		<string>SELECT theatre1.theatreNo, theatre1.startDateTime AS startTime1, theatre2.startDateTime AS startTime2
+FROM Hospital_Operation AS theatre1 JOIN Hospital_Operation AS theatre2
+WHERE theatre2.startDateTime &lt;= ADDTIME(theatre1.startDateTime, theatre1.duration)</string>
+		<string>SELECT theatre1.theatreNo, theatre1.startDateTime AS startTime1, theatre2.startDateTime AS startTime2
+FROM Hospital_Operation AS theatre1 JOIN Hospital_Operation AS theatre2</string>
+		<string>SELECT theatre1.theatreNo, theatre1.startDateTime AS startTime1, theatre2.startDateTime AS startTime2
+FROM Hospital_Operation AS theatre1 JOIN Hospital_Operation AS theatre 2</string>
+		<string>SELECT doc1.NINumber, doc1.fname, doc1.lname FROM Hospital_Doctor AS doc1
+WHERE doc1.mentored_by IS NULL
+	AND (SELECT COUNT(*)
+	FROM Hospital_Doctor
+	WHERE Hospital_Doctor.mentored_by = doc1.NINumber) &gt; 0</string>
+		<string>SELECT doc1.NINumber, doc1.fname, doc1.lname FROM Hospital_Doctor AS doc1
+WHERE doc1.mentored_by IS NULL
+	AND (SELECT COUNT(*)
+	FROM Hospital_Doctor
+	WHERE Hospital_Doctor.mentoredby = doc1.NINumber) &gt; 0</string>
+		<string>SELECT doc1.NINumber, doc1.fname, doc1.lname FROM Hospital_Doctor AS doc1
+WHERE doc1.mentored_by IS NULL</string>
+		<string>SELECT doc1.NINumber, doc1.fname, doc1.lname FROM Hospital_Doctor AS doc1</string>
+		<string>SELECT doc1.NINumber FROM Hospital_Doctor AS doc1</string>
+		<string>SELECT Hospital_Doctor.NINumber, Hospital_Doctor.lname, 
+	(SELECT COUNT(*) FROM Hospital_CarriesOut WHERE Hospital_Doctor.NINumber = Hospital_CarriesOut.doctor AND year(Hospital_CarriesOut.startDateTime) = year(NOW())) AS operations
+		FROM Hospital_Doctor</string>
+		<string>SELECT Hospital_Doctor.NINumber, Hospital_Doctor.lname, 
+	(SELECT COUNT(*) FROM Hospital_CarriesOut WHERE Hospital_Doctor.NINumber = Hospital_CarriesOut.doctor)
+		FROM Hospital_Doctor</string>
+		<string>SELECT Hospital_Doctor.NINumber, Hospital_Doctor.lname, 
+	(SELECT COUNT(*) FROM Hospital_CarriesOut) 
+		FROM Hospital_Doctor</string>
+		<string>SELECT COUNT(*) AS 'number' from Hospital_Doctor</string>
+		<string>SELECT COUNT (*) AS 'number' from Hospital_Doctor</string>
+		<string>SELECT NINumber, fname, lname, (weight/POWER((height/100),2)) AS 'BMI'FROM Hospital_Patient WHERE DATEDIFF(NOW(), dateOfBirth)/365.25 &lt; 30</string>
+	</array>
+	<key>rdbms_type</key>
+	<string>mysql</string>
+	<key>rdbms_version</key>
+	<string>5.1.73</string>
+	<key>version</key>
+	<integer>1</integer>
+</dict>
+</plist>
