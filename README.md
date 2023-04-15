@@ -1,1 +1,2 @@
-# sql-database
+# SQL database implementation
+* architecture outlined in PDF
